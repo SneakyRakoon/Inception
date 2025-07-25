@@ -187,7 +187,7 @@ Ce projet permet de développer une expertise en :
 
 ---
 
-**Auteur** : [Votre nom]  
+**Auteur** : [SosoLeJovial]  
 **École** : 42  
 **Projet** : Inception  
 **Date** : 2025
