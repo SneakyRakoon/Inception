@@ -16,11 +16,11 @@
 
 ### Services obligatoires
 
-| Service | Container | Description |
-|---------|-----------|-------------|
-| **NGINX** | `nginx` | Serveur web avec TLS 1.2/1.3 uniquement (port 443) |
-| **WordPress** | `wordpress` | CMS avec PHP-FPM (sans nginx) |
-| **MariaDB** | `mariadb` | Base de données (sans nginx) |
+| Service             | Container     | Description                                        |
+| ------------------- | ------------- | -------------------------------------------------- |
+| **NGINX**     | `nginx`     | Serveur web avec TLS 1.2/1.3 uniquement (port 443) |
+| **WordPress** | `wordpress` | CMS avec PHP-FPM (sans nginx)                      |
+| **MariaDB**   | `mariadb`   | Base de données (sans nginx)                      |
 
 ### Infrastructure
 
@@ -45,12 +45,14 @@
 ### Concepts techniques
 
 #### 🐳 Containerisation
+
 - Création de **Dockerfiles** optimisés
 - Images basées sur **Alpine/Debian** (avant-dernière version stable)
 - Gestion des **processus** et **PID 1**
 - **Bonnes pratiques** d'écriture Dockerfile
 
 #### 🌐 Réseaux et sécurité
+
 - Configuration **réseau Docker** personnalisé
 - **Isolation** des services
 - **Chiffrement TLS** 1.2/1.3
@@ -58,11 +60,13 @@
 - **Variables d'environnement** et secrets
 
 #### 🗄️ Persistance des données
+
 - **Volumes Docker** pour la persistance
 - **Mapping** vers `/home/login/data/`
 - Sauvegarde et restauration des données
 
 #### ⚙️ Orchestration
+
 - **Docker Compose** pour l'orchestration multi-services
 - **Dépendances** entre services
 - **Health checks** et redémarrage automatique
@@ -157,18 +161,21 @@ make fclean
 ## 📚 Apprentissages clés
 
 ### Administration système
+
 - Configuration et sécurisation de services web
 - Gestion des utilisateurs et permissions
 - Automation avec Makefile
 - Monitoring et logs des services
 
 ### DevOps
+
 - Infrastructure as Code avec Docker Compose
 - Déploiement reproductible et portable
 - Séparation des environnements
 - Gestion des secrets et configuration
 
 ### Architecture
+
 - Design multi-services
 - Communication inter-conteneurs
 - Persistance et volumes
@@ -187,7 +194,7 @@ Ce projet permet de développer une expertise en :
 
 ---
 
-**Auteur** : [SosoLeJovial]  
-**École** : 42  
-**Projet** : Inception  
+**Auteur** : [SneakyRakoon]
+**École** : 42
+**Projet** : Inception
 **Date** : 2025
