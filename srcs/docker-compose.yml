@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: srcs/nginx/
+      dockerfile: Dockerfile
+    networks:
+      - inception
+  wordpress:
+    build:
+      context: srcs/wordpress/
+      dockerfile: Dockerfile
+    networks:
+      - inception
+  mariadb:
+    build:
+      context: srcs/mariadb
+      dockerfile: Dockerfile
+    volumes:
+      - test-mariadb-data:/home/${USER}
+    networks:
+      - inception
+
+
+networks:
+  inception:
+    driver: bridge
