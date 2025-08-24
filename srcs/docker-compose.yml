@@ -11,36 +11,34 @@ services:
     #   - wordpress
     networks:
       - Inception
-#   db:
-#     build:
-#       context: ./requirements/mariadb
-#       dockerfile: Dockerfile
-#     environment:
-#       MYSQL_ROOT_PASSWORD: root
-#       MYSQL_DATABASE: inception
-#     volumes:
-#       - db_data:/var/lib/mysql
+  db:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: inception
+    volumes:
+      - db_data:/var/lib/mysql
 
-#   wordpress:
-#     build:
-#       context: ./requirements/wordpress
-#       dockerfile: Dockerfile
-#     ports:
-#       - "8000:80"
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - wordpress_data:/var/www/html
 
-#     environment:
-#       WORDPRESS_DB_HOST: db
-#       WORDPRESS_DB_USER: admin
-#       WORDPRESS_DB_PASSWORD: lelo
-#       WORDPRESS_DB_NAME: inception
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: admin
+      WORDPRESS_DB_PASSWORD: lelo
+      WORDPRESS_DB_NAME: inception
 
 volumes:
   wordpress_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/login/data/wordpress
+  db_data:
 
 networks:
   Inception:

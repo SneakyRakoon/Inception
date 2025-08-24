@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-# Attendre que MariaDB soit prêt
 until mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} >/dev/null 2>&1; do
   sleep 1
 done
