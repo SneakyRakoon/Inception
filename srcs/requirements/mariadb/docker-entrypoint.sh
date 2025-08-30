@@ -1,24 +1,37 @@
 #!/bin/bash
 set -e
 
-# Initialiser MariaDB
+echo "Starting MariaDB initialization..."
+
+# Force la suppression de toutes les données existantes
+rm -rf /var/lib/mysql/*
+
+# Initialise MariaDB proprement
 mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
-# Démarrer MariaDB en arrière-plan
+# Démarre MariaDB temporairement
 mysqld_safe --user=mysql &
 
-# Attendre que MariaDB soit prêt
-until mysqladmin ping >/dev/null 2>&1; do
-  sleep 1
+# Attendre que MariaDB soit prêt (connexion locale uniquement)
+until mysql -h localhost -u root -e "SELECT 1;" >/dev/null 2>&1; do
+    echo "Waiting for MariaDB to start..."
+    sleep 1
 done
 
-# Configuration initiale
-mysql -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
-mysql -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-mysql -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';"
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
-mysql -e "FLUSH PRIVILEGES;"
+# Configuration initiale - AJOUTER LES PERMISSIONS RÉSEAU POUR ROOT
+mysql -h localhost -u root << EOF
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${MYSQL_ROOT_PASSWORD}');
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
+CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
+FLUSH PRIVILEGES;
+EOF
 
-# Arrêter MariaDB temporaire et redémarrer proprement
-mysqladmin shutdown
-exec mysqld --user=mysql
+# Arrêter MariaDB temporaire (maintenant avec le bon mot de passe)
+mysqladmin -h localhost -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
+
+echo "MariaDB initialization complete."
+echo "Starting MariaDB server..."
+exec mysqld --user=mysql --bind-address=0.0.0.0

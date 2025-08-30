@@ -8,15 +8,19 @@ RUN apt-get update && apt-get install -y \
     php7.4-xml \
     php7.4-mbstring \
     php7.4-zip \
-    wget \
+    mariadb-client \
+    curl \
+    netcat \
     && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://raw.githubusercontent.com/wp-cli/wp-cli/master/php/wp-cli.phar \
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
 COPY ./docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+RUN mkdir -p /run/php
 
 WORKDIR /var/www/html
 

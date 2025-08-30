@@ -7,34 +7,34 @@ services:
       - "443:443"
     volumes:
       - wordpress_data:/var/www/html
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
     networks:
       - Inception
-  db:
+
+  mariadb:
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: inception
+    env_file:
+      - ./.env
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - Inception
 
   wordpress:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    ports:
-      - "8000:80"
     volumes:
       - wordpress_data:/var/www/html
-
-    environment:
-      WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER: admin
-      WORDPRESS_DB_PASSWORD: lelo
-      WORDPRESS_DB_NAME: inception
+    depends_on:
+      - mariadb
+    env_file:
+      - ./.env
+    networks:
+      - Inception
 
 volumes:
   wordpress_data:

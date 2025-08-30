@@ -1,9 +1,24 @@
 #!/bin/bash
 set -e
 
-until mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} >/dev/null 2>&1; do
+#!/bin/bash
+set -e
+
+echo "Starting WordPress setup..."
+echo "Waiting for database connection..."
+
+until nc -z ${MYSQL_HOST} 3306; do
+    echo "Database not ready, waiting..."
+    sleep 2
+done
+
+until timeout 10 mysql -h${MYSQL_HOST} -u${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} >/dev/null 2>&1; do
+  echo "Database not ready, waiting..."
   sleep 1
 done
+
+echo "Database connection successful!"
+# ... reste du script
 
 # Télécharger WordPress si pas présent
 if [ ! -f wp-config.php ]; then
@@ -25,5 +40,7 @@ if [ ! -f wp-config.php ]; then
         ${WP_USER} ${WP_EMAIL} \
         --user_pass=${WP_PASSWORD}
 fi
+
+sed -i 's/listen = .*/listen = 0.0.0.0:9000/' /etc/php/7.4/fpm/pool.d/www.conf
 
 exec "$@"

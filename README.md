@@ -16,11 +16,11 @@
 
 ### Services obligatoires
 
-| Service             | Container     | Description                                        |
-| ------------------- | ------------- | -------------------------------------------------- |
+| Service       | Container   | Description                                        |
+| ------------- | ----------- | -------------------------------------------------- |
 | **NGINX**     | `nginx`     | Serveur web avec TLS 1.2/1.3 uniquement (port 443) |
 | **WordPress** | `wordpress` | CMS avec PHP-FPM (sans nginx)                      |
-| **MariaDB**   | `mariadb`   | Base de données (sans nginx)                      |
+| **MariaDB**   | `mariadb`   | Base de données (sans nginx)                       |
 
 ### Infrastructure
 
@@ -28,7 +28,7 @@
 - **2 volumes persistants** :
   - Volume base de données WordPress
   - Volume fichiers du site WordPress
-- **Domaine local** : `login.42.fr` pointant vers l'IP locale
+- **Domaine local** : `tsofien-.42.fr` pointant vers l'IP locale
 - **Redémarrage automatique** des conteneurs en cas de crash
 
 ## 🛠️ Compétences mobilisées
