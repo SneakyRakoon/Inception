@@ -41,6 +41,12 @@ if [ ! -f wp-config.php ]; then
         --user_pass=${WP_PASSWORD}
 fi
 
+cat /etc/php/7.4/fpm/pool.d/www.conf | grep listen
+
+# Modifier la configuration de PHP-FPM pour écouter sur toutes les interfaces
 sed -i 's/listen = .*/listen = 0.0.0.0:9000/' /etc/php/7.4/fpm/pool.d/www.conf
+
+cat /etc/php/7.4/fpm/pool.d/www.conf | grep listen
+
 
 exec "$@"
