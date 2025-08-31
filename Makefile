@@ -1,5 +1,5 @@
 DOCKER_COMPOSE_FILE	= srcs/docker-compose.yml
-DATA_DIR			= /home/tsofien-/data/
+DATA_DIR			= /home/tsofien-/data
 DATA_DIR_MARIADB	= $(DATA_DIR)/mariadb
 DATA_DIR_WORDPRESS	= $(DATA_DIR)/wordpress
 

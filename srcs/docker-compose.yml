@@ -38,7 +38,18 @@ services:
 
 volumes:
   wordpress_data:
+    driver: local
+    driver_opts:
+      type: bind
+      o: bind
+      device: /home/tsofien-/data/wordpress
+
   db_data:
+    driver: local
+    driver_opts:
+      type: bind
+      o: bind
+      device: /home/tsofien-/data/mariadb
 
 networks:
   Inception:
