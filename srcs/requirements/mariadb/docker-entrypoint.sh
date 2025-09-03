@@ -3,8 +3,6 @@ set -e
 
 echo "Starting MariaDB initialization..."
 
-# Force la suppression de toutes les données existantes
-rm -rf /var/lib/mysql/*
 
 # Initialise MariaDB proprement
 mysql_install_db --user=mysql --datadir=/var/lib/mysql
