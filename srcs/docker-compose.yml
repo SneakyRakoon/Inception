@@ -2,7 +2,6 @@ services:
   nginx:
     build:
       context: ./requirements/nginx
-      dockerfile: Dockerfile
     ports:
       - "443:443"
     volumes:
@@ -15,7 +14,6 @@ services:
   mariadb:
     build:
       context: ./requirements/mariadb
-      dockerfile: Dockerfile
     env_file:
       - ./.env
     volumes:
@@ -26,7 +24,6 @@ services:
   wordpress:
     build:
       context: ./requirements/wordpress
-      dockerfile: Dockerfile
     volumes:
       - wordpress_data:/var/www/html
     depends_on:

@@ -20,7 +20,7 @@ re: fclean all
 
 down:
 	docker compose -f $(DOCKER_COMPOSE_FILE) down
-	docker volume rm srcs_db_data || true    # ← APRÈS avoir arrêté les conteneurs
+	docker volume rm srcs_db_data || true
 	docker system prune -f
 stop:
 	docker compose -f $(DOCKER_COMPOSE_FILE) stop

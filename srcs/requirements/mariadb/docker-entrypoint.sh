@@ -4,19 +4,19 @@ set -e
 echo "Starting MariaDB initialization..."
 
 
-# Initialise MariaDB proprement
+# Properly initialize MariaDB
 mysql_install_db --user=mysql --datadir=/var/lib/mysql
 
-# Démarre MariaDB temporairement
+# Start MariaDB temporarily
 mysqld_safe --user=mysql &
 
-# Attendre que MariaDB soit prêt (connexion locale uniquement)
+# Wait for MariaDB to be ready (local connection only)
 until mysql -h localhost -u root -e "SELECT 1;" >/dev/null 2>&1; do
     echo "Waiting for MariaDB to start..."
     sleep 1
 done
 
-# Configuration initiale - AJOUTER LES PERMISSIONS RÉSEAU POUR ROOT
+# Initial configuration - ADD NETWORK PERMISSIONS FOR ROOT
 mysql -h localhost -u root << EOF
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${MYSQL_ROOT_PASSWORD}');
 CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
@@ -27,7 +27,7 @@ GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';
 FLUSH PRIVILEGES;
 EOF
 
-# Arrêter MariaDB temporaire (maintenant avec le bon mot de passe)
+# Stop temporary MariaDB (now with the correct password)
 mysqladmin -h localhost -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
 
 echo "MariaDB initialization complete."
